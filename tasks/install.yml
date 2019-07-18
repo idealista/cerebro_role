@@ -1,0 +1,62 @@
+---
+
+- name: Cerebro | Ensure Cerebro group
+  group:
+    name: "{{ cerebro_group }}"
+    system: true
+
+- name: Cerebro | Ensure Cerebro user
+  user:
+    name: "{{ cerebro_user }}"
+    group: "{{ cerebro_group }}"
+    shell: /bin/false
+    createhome: true
+    home: "{{ cerebro_user_home_dir }}"
+
+- name: Cerebro | Wait for service listening
+  wait_for:
+    host: "{{ cerebro_host }}"
+    port: "{{ cerebro_port }}"
+    state: "{{ cerebro_service_state }}"
+    timeout: 5
+  register: cerebro_installed_check
+  ignore_errors: true
+
+- name: Cerebro | Stop service
+  systemd:
+    name: cerebro
+    state: stopped
+  when: cerebro_force_reinstall or cerebro_installed_check is failed
+  ignore_errors: true
+
+- name: Cerebro | Remove old version
+  file:
+    path: "{{ cerebro_home_dir }}"
+    state: absent
+  when: cerebro_force_reinstall or cerebro_installed_check is failed
+
+- name: Cerebro | Ensure Cerebro home dir exist
+  file:
+    path: "{{ cerebro_home_dir }}"
+    state: directory
+    owner: "{{ cerebro_user }}"
+    group: "{{ cerebro_group }}"
+  when: cerebro_force_reinstall or cerebro_installed_check is failed
+
+- name: Cerebro | Untar Cerebro
+  unarchive:
+    extra_opts: ['--strip-components=1']
+    src: "{{ cerebro_package_url }}"
+    remote_src: true
+    dest: "{{ cerebro_home_dir }}"
+    owner: "{{ cerebro_user }}"
+    group: "{{ cerebro_group }}"
+  when: cerebro_force_reinstall or cerebro_installed_check is failed
+
+- name: Cerebro | Create systemd service
+  template:
+    src: cerebro.service.j2
+    dest: "{{ cerebro_systemd_file }}"
+    mode: 0644
+  notify:
+    - restart cerebro

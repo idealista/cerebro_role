@@ -1,0 +1,15 @@
+---
+- name: Prepare
+  hosts: cerebro
+  gather_facts: false
+  tasks: 
+  - name: Limits on mmap counts
+    sysctl:
+      name: vm.max_map_count
+      value: 262144
+      sysctl_set: true
+      state: present
+      reload: true
+  - name: Install Elasticsearch
+    include_role: 
+      name: elasticsearch

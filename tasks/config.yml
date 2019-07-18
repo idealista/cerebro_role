@@ -1,0 +1,21 @@
+---
+
+- name: Cerebro | Ensure Cerebro dirs exist
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ cerebro_user }}"
+    group: "{{ cerebro_group }}"
+  loop:
+    - "{{ cerebro_conf_dir }}"
+    - "{{ cerebro_pid_dir }}"
+    - "{{ cerebro_data_dir }}"
+
+- name: Cerebro | Configuring Cerebro
+  template:
+    src: application.conf.j2
+    dest: "{{ cerebro_conf_dir }}/application.conf"
+    owner: "{{ cerebro_user }}"
+    group: "{{ cerebro_group }}"
+    mode: 0660
+  notify: restart cerebro

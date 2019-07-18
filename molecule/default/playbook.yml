@@ -1,0 +1,6 @@
+---
+
+- hosts: cerebro
+
+  roles:
+    - role: cerebro_role

@@ -1,0 +1,16 @@
+---
+
+- name: Cerebro | Install
+  import_tasks: install.yml
+  tags:
+    - cerebro_install
+
+- name: Cerebro | Configure
+  import_tasks: config.yml
+  tags:
+    - cerebro_configure
+
+- name: Cerebro | Service
+  import_tasks: service.yml
+  tags:
+    - cerebro_service

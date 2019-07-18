@@ -1,0 +1,23 @@
+{{ ansible_managed | comment }}
+[Unit]
+Description=Cerebro Application On %I
+After=network.target
+
+[Service]
+Type=simple
+
+User={{ cerebro_user }}
+Group={{ cerebro_group }}
+
+WorkingDirectory={{ cerebro_home_dir }}
+
+PIDFile={{ cerebro_pid_dir }}/cerebro.pid
+
+ExecStart={{ cerebro_home_dir }}/bin/cerebro -Dconfig.file={{ cerebro_home_dir }}/conf/application.conf -Dhttp.port={{ cerebro_port }} -Dhttp.address={{ cerebro_host }}
+
+Restart=always
+
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target

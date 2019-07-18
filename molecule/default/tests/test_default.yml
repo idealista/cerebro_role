@@ -1,0 +1,20 @@
+---
+
+group:
+  {{ cerebro_group }}:
+    exists: true
+
+user:
+  {{ cerebro_user }}:
+    exists: true
+    groups:
+      - {{ cerebro_group }}
+
+port:
+  tcp:{{ cerebro_port }}:
+    listening: true
+    
+service:
+  cerebro:
+    enabled: true
+    running: true

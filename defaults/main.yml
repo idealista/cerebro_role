@@ -1,0 +1,33 @@
+---
+
+## General
+cerebro_version: 0.8.3
+cerebro_force_reinstall: false
+
+# Owner
+cerebro_user: cerebro
+cerebro_group: cerebro
+cerebro_user_home_dir: /home/{{ cerebro_user }}
+
+# Start on boot
+cerebro_service_enabled: true
+
+# Current state: started, stopped
+cerebro_service_state: started
+
+# Files & Paths
+cerebro_home_dir: /opt/cerebro
+cerebro_conf_dir: "{{ cerebro_home_dir }}/conf"
+cerebro_data_dir: /var/lib/cerebro
+cerebro_pid_dir: /var/run/cerebro
+
+# Hosts & ports
+cerebro_host: "0.0.0.0"
+cerebro_port: 9000
+
+# Elasticsearch
+cerebro_es_hosts: []
+
+# Config
+cerebro_play_secret: ki:s:[[@=Ag?QI`W2jMwkY:eqvrJ]JqoJyi2axj3ZvOv^/KavOT4ViJSv?6YY4[N
+cerebro_rest_history: 50

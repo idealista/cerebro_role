@@ -1,0 +1,22 @@
+---
+
+- name: Cerebro | Starting service
+  systemd:
+    name: cerebro
+    state: "{{ cerebro_service_state }}"
+    enabled: "{{ cerebro_service_enabled }}"
+    daemon_reload: true
+
+- name: Cerebro | Force handlers
+  meta: flush_handlers
+
+- name: Cerebro | Wait for service listening
+  wait_for:
+    host: "{{ cerebro_host }}"
+    port: "{{ cerebro_port }}"
+    state: "{{ cerebro_service_state }}"
+    delay: 5
+    timeout: 300
+  when:
+    - cerebro_service_enabled
+    - cerebro_service_state == "started"

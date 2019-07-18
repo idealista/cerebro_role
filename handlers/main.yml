@@ -1,0 +1,7 @@
+---
+
+- name: restart cerebro
+  systemd:
+    name: cerebro
+    state: restarted
+  when: cerebro_service_state != 'stopped'

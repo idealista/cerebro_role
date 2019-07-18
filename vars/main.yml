@@ -1,0 +1,4 @@
+---
+
+cerebro_package_url: https://github.com/lmenezes/cerebro/releases/download/v{{ cerebro_version }}/cerebro-{{ cerebro_version }}.tgz
+cerebro_systemd_file: /etc/systemd/system/cerebro.service

@@ -1,0 +1,21 @@
+---
+
+elasticsearch_version: 6.7.1
+elasticsearch_api_host: cerebro
+elasticsearch_api_port: 9200
+elasticsearch_config:
+  node.name: "{{ elasticsearch_api_host }}"
+  cluster.name: es-cluster
+  network.host: _site_
+  bootstrap.memory_lock: true
+  node.data: true
+  node.master: true
+  cluster.remote.connect: false
+  http.cors.enabled: true
+  http.cors.allow-origin: "*"
+
+cerebro_version: 0.8.3
+cerebro_host: cerebro
+cerebro_es_hosts: 
+  - name: es-cluster
+    host: http://{{ elasticsearch_api_host }}:{{ elasticsearch_api_port }}

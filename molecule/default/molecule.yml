@@ -1,0 +1,25 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: cerebro
+    hostname: cerebro
+    image: idealista/jdk:8u181-stretch-openjdk-headless
+    privileged: true
+    capabilities:
+      - SYS_ADMIN
+    volumes:
+      - '/sys/fs/cgroup:/sys/fs/cgroup:ro'
+    groups:
+      - cerebro
+    command: '/lib/systemd/systemd'
+    networks:
+      - name: cerebro-network
+        aliases:
+          - cerebro
+    published_ports:
+      - 9200:9200
+      - 9300:9300
+      - 9000:9000
